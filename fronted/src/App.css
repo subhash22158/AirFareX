@@ -1,0 +1,1294 @@
+/* =========================================================
+AIRFAREX - MAIN STYLES
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    }
+
+html {
+scroll-behavior: smooth;
+}
+
+body {
+font-family:
+Inter,
+system-ui,
+-apple-system,
+BlinkMacSystemFont,
+“Segoe UI”,
+sans-serif;
+
+background: #06111f;
+color: white;
+overflow-x: hidden;
+}
+
+button {
+font-family: inherit;
+}
+
+/* =========================================================
+APP
+========================================================= */
+
+.app {
+position: relative;
+min-height: 100vh;
+overflow: hidden;
+background: #06111f;
+}
+
+/* =========================================================
+AIRCRAFT BACKGROUND
+========================================================= */
+
+.background {
+position: fixed;
+inset: 0;
+
+z-index: 0;
+
+width: 100%;
+height: 100%;
+
+background-size: cover;
+background-position: center center;
+background-repeat: no-repeat;
+
+transform: scale(1.04);
+-webkit-transform: scale(1.04);
+
+animation:
+aircraftBackground 49s infinite,
+backgroundZoom 14s ease-in-out infinite alternate;
+
+-webkit-animation:
+aircraftBackground 49s infinite,
+backgroundZoom 14s ease-in-out infinite alternate;
+
+will-change: transform, background-position;
+-webkit-backface-visibility: hidden;
+backface-visibility: hidden;
+
+isolation: isolate;
+}
+
+/* Dark cinematic layer */
+
+.background::after {
+content: “”;
+position: absolute;
+inset: 0;
+
+background:
+linear-gradient(
+180deg,
+rgba(2, 10, 20, 0.45) 0%,
+rgba(2, 10, 20, 0.60) 35%,
+rgba(2, 10, 20, 0.88) 78%,
+rgba(2, 10, 20, 0.98) 100%
+);
+}
+
+/* =========================================================
+AIRCRAFT SLIDESHOW
+========================================================= */
+
+@keyframes aircraftBackground {
+
+/* 01 - IndiGo */
+0%,
+12% {
+background-image:
+url(“https://commons.wikimedia.org/wiki/Special:Redirect/file/IndiGo%20Airbus%20A320%2C%20Chhatrapati%20Shivaji%20International%20Airport.jpg”);
+}
+
+/* 02 - Air India */
+14%,
+26% {
+background-image:
+url(“https://commons.wikimedia.org/wiki/Special:Redirect/file/Aircraft%20of%20Air-India.jpg”);
+}
+
+/* 03 - Akasa Air */
+28%,
+40% {
+background-image:
+url(“https://commons.wikimedia.org/wiki/Special:Redirect/file/Akasa%20Air%20VT-YAO%20Mumbai%20Jul25%20A7CR%2005993.jpg”);
+}
+
+/* 04 - Vistara */
+42%,
+54% {
+background-image:
+url(“https://commons.wikimedia.org/wiki/Special:Redirect/file/VISTARA%20airlines%20aircraft%2C%20Odisha%2C%20India.jpg”);
+}
+
+/* 05 - SpiceJet */
+56%,
+68% {
+background-image:
+url(“https://commons.wikimedia.org/wiki/Special:Redirect/file/SpiceJet%20aircraft.jpg”);
+}
+
+/* 06 - Air India Express */
+70%,
+82% {
+background-image:
+url(“https://commons.wikimedia.org/wiki/Special:Redirect/file/Air%20India%20Express.jpg”);
+}
+
+/* 07 - AirAsia India */
+84%,
+96% {
+background-image:
+url(“https://commons.wikimedia.org/wiki/Special:Redirect/file/AirAsia%20India%20A320%20Neo%20Aircraft.png”);
+}
+
+100% {
+background-image:
+url(“https://commons.wikimedia.org/wiki/Special:Redirect/file/IndiGo%20Airbus%20A320%2C%20Chhatrapati%20Shivaji%20International%20Airport.jpg”);
+}
+}
+
+/* =========================================================
+SLOW CINEMATIC BACKGROUND MOVEMENT
+========================================================= */
+
+@keyframes backgroundZoom {
+
+0% {
+transform: scale(1.03);
+background-position: 50% 50%;
+}
+
+50% {
+transform: scale(1.07);
+background-position: 54% 48%;
+}
+
+100% {
+transform: scale(1.04);
+background-position: 47% 52%;
+}
+}
+
+/* =========================================================
+EXTRA OVERLAY
+========================================================= */
+
+.overlay {
+position: fixed;
+inset: 0;
+
+z-index: 1;
+pointer-events: none;
+
+background:
+radial-gradient(
+circle at 50% 25%,
+rgba(18, 120, 190, 0.08),
+transparent 42%
+),
+linear-gradient(
+90deg,
+rgba(0, 0, 0, 0.20),
+transparent 45%,
+rgba(0, 0, 0, 0.30)
+);
+}
+
+/* =========================================================
+NAVBAR
+========================================================= */
+
+.navbar {
+position: relative;
+z-index: 10;
+
+width: min(1400px, calc(100% - 50px));
+margin: 0 auto;
+
+padding: 28px 0;
+
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.logo {
+display: flex;
+align-items: center;
+gap: 13px;
+}
+
+.logo-icon {
+width: 50px;
+height: 50px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+border-radius: 15px;
+
+background:
+linear-gradient(
+135deg,
+rgba(31, 153, 255, 0.25),
+rgba(255, 255, 255, 0.08)
+);
+
+border: 1px solid rgba(255, 255, 255, 0.16);
+
+font-size: 24px;
+
+box-shadow:
+0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+.logo h1 {
+font-size: 25px;
+font-weight: 800;
+letter-spacing: -0.5px;
+}
+
+.logo p {
+margin-top: 2px;
+
+color: rgba(255, 255, 255, 0.62);
+
+font-size: 11px;
+letter-spacing: 0.8px;
+text-transform: uppercase;
+}
+
+.live-status {
+display: flex;
+align-items: center;
+gap: 9px;
+
+padding: 10px 16px;
+
+border-radius: 999px;
+
+background: rgba(0, 0, 0, 0.28);
+
+border: 1px solid rgba(255, 255, 255, 0.15);
+
+backdrop-filter: blur(16px);
+-webkit-backdrop-filter: blur(16px);
+
+color: rgba(255, 255, 255, 0.86);
+
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 1px;
+}
+
+.live-dot {
+width: 8px;
+height: 8px;
+
+border-radius: 50%;
+
+background: #35e38b;
+
+box-shadow:
+0 0 0 5px rgba(53, 227, 139, 0.12),
+0 0 18px rgba(53, 227, 139, 0.8);
+
+animation: livePulse 1.7s infinite;
+-webkit-animation: livePulse 1.7s infinite;
+}
+
+@keyframes livePulse {
+
+0%,
+100% {
+transform: scale(1);
+opacity: 1;
+}
+
+50% {
+transform: scale(0.72);
+opacity: 0.55;
+}
+}
+
+/* =========================================================
+MAIN
+========================================================= */
+
+main {
+position: relative;
+z-index: 5;
+
+width: min(1400px, calc(100% - 50px));
+margin: 0 auto;
+}
+
+/* =========================================================
+HERO
+========================================================= */
+
+.hero {
+min-height: 620px;
+
+display: flex;
+align-items: center;
+
+padding: 65px 0 100px;
+}
+
+.hero-content {
+max-width: 850px;
+}
+
+.eyebrow {
+display: inline-flex;
+
+padding: 8px 13px;
+
+border-radius: 999px;
+
+background: rgba(255, 255, 255, 0.08);
+
+border: 1px solid rgba(255, 255, 255, 0.15);
+
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+
+color: rgba(255, 255, 255, 0.78);
+
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 1.2px;
+}
+
+.hero h2 {
+margin-top: 25px;
+
+font-size: clamp(48px, 7vw, 88px);
+
+line-height: 0.98;
+
+letter-spacing: -4px;
+
+font-weight: 850;
+
+text-shadow:
+0 12px 50px rgba(0, 0, 0, 0.35);
+}
+
+.hero h2 span {
+display: block;
+
+background:
+linear-gradient(
+90deg,
+#ffffff,
+#91d7ff,
+#ffffff
+);
+
+-webkit-background-clip: text;
+background-clip: text;
+
+color: transparent;
+}
+
+.hero-description {
+max-width: 690px;
+
+margin-top: 28px;
+
+color: rgba(255, 255, 255, 0.72);
+
+font-size: 17px;
+
+line-height: 1.75;
+}
+
+.hero-buttons {
+display: flex;
+gap: 13px;
+
+margin-top: 34px;
+}
+
+.primary-button,
+.secondary-button {
+border: none;
+
+padding: 14px 21px;
+
+border-radius: 13px;
+
+cursor: pointer;
+
+font-size: 13px;
+font-weight: 750;
+
+transition:
+transform 0.25s ease,
+box-shadow 0.25s ease,
+background 0.25s ease;
+}
+
+.primary-button {
+background: white;
+color: #06111f;
+
+box-shadow:
+0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.secondary-button {
+color: white;
+
+background: rgba(255, 255, 255, 0.08);
+
+border: 1px solid rgba(255, 255, 255, 0.18);
+
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+}
+
+.primary-button:hover,
+.secondary-button:hover {
+transform: translateY(-3px);
+}
+
+.primary-button:hover {
+box-shadow:
+0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+.secondary-button:hover {
+background: rgba(255, 255, 255, 0.14);
+}
+
+/* =========================================================
+STATS
+========================================================= */
+
+.stats-section {
+display: grid;
+
+grid-template-columns:
+repeat(4, minmax(0, 1fr));
+
+gap: 15px;
+
+margin-bottom: 70px;
+}
+
+.stat-card {
+min-height: 135px;
+
+padding: 22px;
+
+display: flex;
+align-items: center;
+
+gap: 17px;
+
+border-radius: 20px;
+
+background:
+linear-gradient(
+145deg,
+rgba(255, 255, 255, 0.105),
+rgba(255, 255, 255, 0.035)
+);
+
+border: 1px solid rgba(255, 255, 255, 0.12);
+
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+
+box-shadow:
+0 18px 55px rgba(0, 0, 0, 0.20);
+
+transition:
+transform 0.25s ease,
+background 0.25s ease;
+}
+
+.stat-card:hover {
+transform: translateY(-5px);
+
+background:
+linear-gradient(
+145deg,
+rgba(255, 255, 255, 0.14),
+rgba(255, 255, 255, 0.05)
+);
+}
+
+.stat-icon {
+width: 47px;
+height: 47px;
+
+flex-shrink: 0;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+border-radius: 14px;
+
+background: rgba(255, 255, 255, 0.09);
+
+border: 1px solid rgba(255, 255, 255, 0.10);
+
+font-size: 20px;
+}
+
+.small-label {
+color: rgba(255, 255, 255, 0.52);
+
+font-size: 10px;
+
+font-weight: 800;
+
+letter-spacing: 1.4px;
+}
+
+.stat-card h3 {
+margin-top: 5px;
+
+font-size: 27px;
+
+letter-spacing: -1px;
+}
+
+.stat-note {
+display: block;
+
+margin-top: 3px;
+
+color: rgba(255, 255, 255, 0.46);
+
+font-size: 11px;
+}
+
+/* =========================================================
+SECTION TITLES
+========================================================= */
+
+.section-title {
+display: flex;
+align-items: flex-end;
+justify-content: space-between;
+
+gap: 20px;
+
+margin-bottom: 22px;
+}
+
+.section-title h3 {
+margin-top: 6px;
+
+font-size: 27px;
+
+letter-spacing: -1px;
+}
+
+.observation-count {
+padding: 8px 12px;
+
+border-radius: 999px;
+
+background: rgba(255, 255, 255, 0.07);
+
+border: 1px solid rgba(255, 255, 255, 0.12);
+
+color: rgba(255, 255, 255, 0.60);
+
+font-size: 10px;
+
+font-weight: 700;
+
+letter-spacing: 0.5px;
+}
+
+/* =========================================================
+LEAD SECTION
+========================================================= */
+
+.lead-section {
+margin-bottom: 65px;
+}
+
+.lead-buttons {
+display: flex;
+gap: 10px;
+
+flex-wrap: wrap;
+}
+
+.lead {
+min-width: 86px;
+
+padding: 12px 18px;
+
+border-radius: 12px;
+
+border: 1px solid rgba(255, 255, 255, 0.12);
+
+background: rgba(255, 255, 255, 0.06);
+
+color: rgba(255, 255, 255, 0.62);
+
+cursor: pointer;
+
+font-size: 12px;
+font-weight: 750;
+
+transition:
+all 0.25s ease;
+}
+
+.lead:hover {
+background: rgba(255, 255, 255, 0.12);
+
+color: white;
+
+transform: translateY(-2px);
+}
+
+.lead.active {
+background: white;
+
+color: #06111f;
+
+border-color: white;
+
+box-shadow:
+0 10px 30px rgba(255, 255, 255, 0.13);
+}
+
+/* =========================================================
+ROUTES
+========================================================= */
+
+.routes-section {
+margin-bottom: 75px;
+}
+
+.route-grid {
+display: grid;
+
+grid-template-columns:
+repeat(3, minmax(0, 1fr));
+
+gap: 16px;
+}
+
+.route-card {
+padding: 23px;
+
+border-radius: 22px;
+
+background:
+linear-gradient(
+145deg,
+rgba(255, 255, 255, 0.105),
+rgba(255, 255, 255, 0.035)
+);
+
+border: 1px solid rgba(255, 255, 255, 0.13);
+
+backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(20px);
+
+transition:
+transform 0.28s ease,
+border-color 0.28s ease;
+}
+
+.route-card:hover {
+transform: translateY(-6px);
+
+border-color:
+rgba(255, 255, 255, 0.28);
+}
+
+.route-top {
+display: flex;
+align-items: center;
+
+gap: 10px;
+}
+
+.plane-icon {
+width: 38px;
+height: 38px;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+border-radius: 11px;
+
+background: rgba(255, 255, 255, 0.09);
+}
+
+.route-code {
+font-size: 14px;
+
+font-weight: 800;
+
+letter-spacing: 0.2px;
+}
+
+.city-name {
+margin-top: 13px;
+
+color: rgba(255, 255, 255, 0.52);
+
+font-size: 12px;
+}
+
+.fare {
+margin-top: 21px;
+
+font-size: 34px;
+
+font-weight: 850;
+
+letter-spacing: -1.5px;
+}
+
+.card-bottom {
+display: flex;
+justify-content: space-between;
+
+margin-top: 22px;
+
+padding-top: 17px;
+
+border-top:
+1px solid rgba(255, 255, 255, 0.08);
+}
+
+.metric-label {
+display: block;
+
+margin-bottom: 5px;
+
+color: rgba(255, 255, 255, 0.42);
+
+font-size: 9px;
+
+font-weight: 800;
+
+letter-spacing: 1px;
+}
+
+.card-bottom strong {
+font-size: 14px;
+}
+
+.change {
+color: #65e6a5;
+}
+
+.positive {
+color: #65e6a5;
+}
+
+.negative {
+color: #ff8d8d;
+}
+
+/* =========================================================
+MARKET
+========================================================= */
+
+.market-section {
+margin-bottom: 75px;
+}
+
+.market-grid {
+display: grid;
+
+grid-template-columns:
+repeat(3, minmax(0, 1fr));
+
+gap: 16px;
+}
+
+.market-card {
+padding: 23px;
+
+border-radius: 20px;
+
+background:
+rgba(255, 255, 255, 0.055);
+
+border:
+1px solid rgba(255, 255, 255, 0.10);
+
+backdrop-filter: blur(18px);
+-webkit-backdrop-filter: blur(18px);
+}
+
+.market-card-top {
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.market-card-top span:first-child {
+font-size: 20px;
+}
+
+.market-card p {
+margin-top: 22px;
+
+color: rgba(255, 255, 255, 0.55);
+
+font-size: 12px;
+
+font-weight: 700;
+}
+
+.market-card h4 {
+margin-top: 7px;
+
+font-size: 29px;
+
+letter-spacing: -1px;
+}
+
+.market-card > span:last-child {
+display: block;
+
+margin-top: 5px;
+
+color: rgba(255, 255, 255, 0.40);
+
+font-size: 10px;
+}
+
+/* =========================================================
+INDEX PANEL
+========================================================= */
+
+.index-panel {
+display: grid;
+
+grid-template-columns:
+0.9fr 1.1fr;
+
+gap: 20px;
+
+padding: 30px;
+
+border-radius: 26px;
+
+background:
+linear-gradient(
+145deg,
+rgba(255, 255, 255, 0.11),
+rgba(255, 255, 255, 0.035)
+);
+
+border:
+1px solid rgba(255, 255, 255, 0.13);
+
+backdrop-filter: blur(22px);
+-webkit-backdrop-filter: blur(22px);
+
+box-shadow:
+0 25px 80px rgba(0, 0, 0, 0.22);
+
+margin-bottom: 75px;
+}
+
+.index-info h3 {
+margin-top: 7px;
+
+font-size: 27px;
+}
+
+.index-number {
+margin-top: 15px;
+
+font-size: 66px;
+
+line-height: 1;
+
+font-weight: 850;
+
+letter-spacing: -4px;
+}
+
+.index-description {
+max-width: 550px;
+
+margin-top: 18px;
+
+color: rgba(255, 255, 255, 0.53);
+
+font-size: 12px;
+
+line-height: 1.7;
+}
+
+.index-meta {
+display: flex;
+
+gap: 30px;
+
+margin-top: 26px;
+}
+
+.index-meta span {
+display: block;
+
+color: rgba(255, 255, 255, 0.42);
+
+font-size: 10px;
+}
+
+.index-meta strong {
+display: block;
+
+margin-top: 5px;
+
+font-size: 15px;
+}
+
+.index-chart {
+min-height: 280px;
+
+padding: 22px;
+
+display: flex;
+flex-direction: column;
+justify-content: flex-end;
+
+border-radius: 18px;
+
+background:
+rgba(0, 0, 0, 0.16);
+
+border:
+1px solid rgba(255, 255, 255, 0.07);
+}
+
+.chart-label {
+margin-bottom: auto;
+
+color: rgba(255, 255, 255, 0.43);
+
+font-size: 9px;
+
+font-weight: 800;
+
+letter-spacing: 1.2px;
+}
+
+.chart-bars {
+height: 190px;
+
+display: flex;
+
+align-items: flex-end;
+
+gap: 12px;
+}
+
+.bar {
+flex: 1;
+
+min-height: 20px;
+
+border-radius:
+8px 8px 3px 3px;
+
+background:
+linear-gradient(
+180deg,
+rgba(255, 255, 255, 0.95),
+rgba(94, 179, 255, 0.42)
+);
+
+box-shadow:
+0 8px 25px rgba(72, 169, 255, 0.10);
+
+transition:
+height 0.5s ease;
+}
+
+.chart-axis {
+display: flex;
+
+justify-content: space-between;
+
+margin-top: 11px;
+
+color: rgba(255, 255, 255, 0.30);
+
+font-size: 9px;
+}
+
+/* =========================================================
+METHODOLOGY
+========================================================= */
+
+.method-section {
+margin-bottom: 80px;
+}
+
+.method-grid {
+display: grid;
+
+grid-template-columns:
+repeat(4, minmax(0, 1fr));
+
+gap: 14px;
+}
+
+.method-card {
+padding: 23px;
+
+min-height: 210px;
+
+border-radius: 20px;
+
+background:
+rgba(255, 255, 255, 0.05);
+
+border:
+1px solid rgba(255, 255, 255, 0.10);
+
+backdrop-filter: blur(15px);
+-webkit-backdrop-filter: blur(15px);
+
+transition:
+transform 0.25s ease;
+}
+
+.method-card:hover {
+transform: translateY(-5px);
+}
+
+.method-card > span {
+color: rgba(255, 255, 255, 0.35);
+
+font-size: 12px;
+
+font-weight: 800;
+}
+
+.method-card h4 {
+margin-top: 24px;
+
+font-size: 20px;
+}
+
+.method-card p {
+margin-top: 10px;
+
+color: rgba(255, 255, 255, 0.48);
+
+font-size: 12px;
+
+line-height: 1.7;
+}
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+footer {
+position: relative;
+z-index: 5;
+
+width: min(1400px, calc(100% - 50px));
+
+margin: 0 auto;
+
+padding: 25px 0 35px;
+
+display: flex;
+
+justify-content: space-between;
+
+gap: 20px;
+
+border-top:
+1px solid rgba(255, 255, 255, 0.09);
+
+color: rgba(255, 255, 255, 0.40);
+
+font-size: 10px;
+
+letter-spacing: 0.5px;
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+.stats-section {
+grid-template-columns:
+repeat(2, 1fr);
+}
+
+.route-grid,
+.market-grid {
+grid-template-columns:
+1fr 1fr;
+}
+
+.method-grid {
+grid-template-columns:
+1fr 1fr;
+}
+
+.index-panel {
+grid-template-columns:
+1fr;
+}
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+.background {
+position: fixed;
+
+width: 100vw;
+height: 100vh;
+background-size: cover;
+background-position: center center;
+transform: scale(1.03);
+-webkit-transform: scale(1.03);
+animation:
+  aircraftBackground 49s infinite,
+  backgroundZoom 14s ease-in-out infinite alternate;
+-webkit-animation:
+  aircraftBackground 49s infinite,
+  backgroundZoom 14s ease-in-out infinite alternate;
+-webkit-backface-visibility: hidden;
+backface-visibility: hidden;
+will-change: transform, background-position;
+
+}
+
+.navbar,
+main,
+footer {
+width: min(100% - 28px, 1400px);
+}
+
+.navbar {
+padding-top: 18px;
+}
+
+.logo h1 {
+font-size: 21px;
+}
+
+.logo p {
+font-size: 8px;
+}
+
+.logo-icon {
+width: 42px;
+height: 42px;
+}
+
+.live-status {
+padding: 8px 10px;
+
+font-size: 9px;
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+
+}
+
+.hero {
+min-height: 560px;
+
+padding-top: 40px;
+
+}
+
+.hero h2 {
+font-size: 48px;
+
+letter-spacing: -2.5px;
+
+}
+
+.hero-description {
+font-size: 14px;
+}
+
+.hero-buttons {
+flex-direction: column;
+
+align-items: stretch;
+
+}
+
+.stats-section {
+grid-template-columns:
+1fr;
+}
+
+.route-grid,
+.market-grid,
+.method-grid {
+grid-template-columns:
+1fr;
+}
+
+.index-panel {
+padding: 20px;
+}
+
+.index-number {
+font-size: 55px;
+}
+
+.index-meta {
+gap: 18px;
+}
+
+footer {
+flex-direction: column;
+}
+}
+
+/* =========================================================
+REDUCE MOTION ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+.background {
+animation: none;
+-webkit-animation: none;
+}
+
+* {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    }
+    }
