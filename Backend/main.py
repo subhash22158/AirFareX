@@ -1,11 +1,22 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from database import SessionLocal
+from database import Base, engine, SessionLocal
 from models import FareObservation
 
 from collections import defaultdict
 
+
+# =========================================================
+# DATABASE TABLE CREATION
+# =========================================================
+
+Base.metadata.create_all(bind=engine)
+
+
+# =========================================================
+# FASTAPI APP
+# =========================================================
 
 app = FastAPI(
     title="AirFareX",
