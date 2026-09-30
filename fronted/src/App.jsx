@@ -1,16 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
+
 const leadWindows = ["T+1", "T+7", "T+15", "T+30", "T+45"];
+
 const routeCities = {
   "DEL → BOM": "Delhi → Mumbai",
   "DEL → BLR": "Delhi → Bengaluru",
   "BOM → BLR": "Mumbai → Bengaluru",
 };
+
 // =========================================================
 // PUBLIC BACKEND
 // =========================================================
 const BACKEND_URL =
-  "https://switches-pounds-artist-draft.trycloudflare.com";
+  "https://lessbackendgreater-production.up.railway.app";
+
 // =========================================================
 // BACKGROUND SLIDESHOW
 // =========================================================
@@ -23,15 +27,18 @@ const backgroundImages = [
   "https://commons.wikimedia.org/wiki/Special:Redirect/file/Air%20India%20Express.jpg",
   "https://commons.wikimedia.org/wiki/Special:Redirect/file/AirAsia%20India%20A320%20Neo%20Aircraft.png",
 ];
+
 function App() {
   const [activeLead, setActiveLead] = useState("T+7");
   const [fares, setFares] = useState([]);
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState("");
+
   // =========================================================
   // SLIDESHOW STATE
   // =========================================================
   const [backgroundIndex, setBackgroundIndex] = useState(0);
+
   // =========================================================
   // PRELOAD BACKGROUND IMAGES
   // =========================================================
@@ -41,6 +48,7 @@ function App() {
       image.src = imageUrl;
     });
   }, []);
+
   // =========================================================
   // START BACKGROUND SLIDESHOW
   // =========================================================
@@ -53,10 +61,12 @@ function App() {
         );
       });
     }, 7000);
+
     return () => {
       clearInterval(slideshowTimer);
     };
   }, []);
+
   // =========================================================
   // FETCH LIVE FARE DATA
   // =========================================================
@@ -65,21 +75,26 @@ function App() {
       try {
         setLoading(true);
         setApiError("");
+
         const response = await fetch(
           `${BACKEND_URL}/fares`
         );
+
         if (!response.ok) {
           throw new Error(
             `API error: ${response.status}`
           );
         }
+
         const data = await response.json();
+
         setFares(data.fares || []);
       } catch (error) {
         console.error(
           "Failed to fetch AirFareX data:",
           error
         );
+
         setApiError(
           "Unable to connect to AirFareX backend."
         );
@@ -87,37 +102,48 @@ function App() {
         setLoading(false);
       }
     };
+
     fetchFares();
   }, []);
+
   // =========================================================
   // GROUP DATA BY LEAD TIME
   // =========================================================
   const faresByLead = useMemo(() => {
     const result = {};
+
     leadWindows.forEach((lead) => {
       result[lead] = {};
     });
+
     fares.forEach((fare) => {
       const lead = `T+${fare.lead_days}`;
       const route =
         `${fare.origin} → ${fare.destination}`;
+
       if (!result[lead]) {
         result[lead] = {};
       }
+
       if (!result[lead][route]) {
         result[lead][route] = [];
       }
+
       result[lead][route].push(fare);
     });
+
     return result;
   }, [fares]);
+
   // =========================================================
   // CURRENT ROUTE DATA
   // =========================================================
   const currentData = useMemo(() => {
     const selectedRoutes =
       faresByLead[activeLead] || {};
+
     const result = {};
+
     Object.entries(selectedRoutes).forEach(
       ([route, observations]) => {
         const averageFare =
@@ -126,6 +152,7 @@ function App() {
               sum + Number(item.total_fare || 0),
             0
           ) / observations.length;
+
         result[route] = {
           fare: Math.round(averageFare),
           index: 100,
@@ -134,16 +161,20 @@ function App() {
         };
       }
     );
+
     return result;
   }, [faresByLead, activeLead]);
+
   // =========================================================
   // AVERAGE FARE
   // =========================================================
   const averageFare = useMemo(() => {
     const values = Object.values(currentData);
+
     if (!values.length) {
       return 0;
     }
+
     return Math.round(
       values.reduce(
         (sum, item) => sum + item.fare,
@@ -151,40 +182,51 @@ function App() {
       ) / values.length
     );
   }, [currentData]);
+
   // =========================================================
   // MARKET INDEX
   // =========================================================
   const currentMarketIndex = useMemo(() => {
     const values = Object.values(currentData);
+
     if (!values.length) {
       return "0.00";
     }
+
     const indexes = values.map(
       (item) => item.index
     );
+
     const average =
       indexes.reduce(
         (sum, value) => sum + value,
         0
       ) / indexes.length;
+
     return average.toFixed(2);
   }, [currentData]);
+
   // =========================================================
   // CHART DATA
   // =========================================================
   const chartData = useMemo(() => {
     const values = Object.values(currentData);
+
     if (!values.length) {
       return [20, 20, 20, 20, 20, 20, 20];
     }
+
     const faresList = values.map(
       (item) => item.fare
     );
+
     const minFare = Math.min(...faresList);
     const maxFare = Math.max(...faresList);
+
     if (minFare === maxFare) {
       return [45, 48, 52, 55, 58, 61, 64];
     }
+
     const normalized = faresList.map(
       (fare) =>
         35 +
@@ -192,14 +234,18 @@ function App() {
           (maxFare - minFare)) *
           50
     );
+
     while (normalized.length < 7) {
       normalized.push(
         normalized[normalized.length - 1] || 50
       );
     }
+
     return normalized.slice(0, 7);
   }, [currentData]);
+
   const observationCount = fares.length;
+
   // =========================================================
   // BACKGROUND COMPONENT
   // =========================================================
@@ -217,6 +263,7 @@ function App() {
       }}
     ></div>
   );
+
   // =========================================================
   // LOADING SCREEN
   // =========================================================
@@ -224,7 +271,9 @@ function App() {
     return (
       <div className="app">
         <Background />
+
         <div className="overlay"></div>
+
         <div
           style={{
             position: "relative",
@@ -243,13 +292,16 @@ function App() {
       </div>
     );
   }
+
   // =========================================================
   // MAIN DASHBOARD
   // =========================================================
   return (
     <div className="app">
       <Background />
+
       <div className="overlay"></div>
+
       {/* =====================================================
           NAVBAR
       ===================================================== */}
@@ -258,20 +310,24 @@ function App() {
           <span className="logo-icon">
             ✈️
           </span>
+
           <div>
             <h1>
               AirFareX
             </h1>
+
             <p>
               Airfare Measurement Platform
             </p>
           </div>
         </div>
+
         <div className="live-status">
           <span className="live-dot"></span>
           LIVE DATA
         </div>
       </header>
+
       <main>
         {/* ===================================================
             HERO
@@ -281,17 +337,20 @@ function App() {
             <p className="eyebrow">
               SMART INDIA HACKATHON 2026 • SIH 26056
             </p>
+
             <h2>
               Real-Time
               <span>
                 {" "}Airfare Price Index
               </span>
             </h2>
+
             <p className="hero-description">
               A high-frequency platform for monitoring
               domestic airfare movements, booking-window
               trends and route-level price changes across India.
             </p>
+
             <div className="hero-buttons">
               <button
                 className="primary-button"
@@ -305,6 +364,7 @@ function App() {
               >
                 📊 View Index
               </button>
+
               <button
                 className="secondary-button"
                 onClick={() =>
@@ -320,6 +380,7 @@ function App() {
             </div>
           </div>
         </section>
+
         {/* ===================================================
             API ERROR
         =================================================== */}
@@ -341,6 +402,7 @@ function App() {
             ⚠️ {apiError}
           </section>
         )}
+
         {/* ===================================================
             STATS
         =================================================== */}
@@ -349,70 +411,86 @@ function App() {
             <div className="stat-icon">
               📊
             </div>
+
             <div>
               <p className="small-label">
                 AIRFARE INDEX
               </p>
+
               <h3>
                 {currentMarketIndex}
               </h3>
+
               <span className="stat-note">
                 {activeLead} market level
               </span>
             </div>
           </div>
+
           <div className="stat-card">
             <div className="stat-icon">
               ✈️
             </div>
+
             <div>
               <p className="small-label">
                 ROUTES TRACKED
               </p>
+
               <h3>
                 {Object.keys(currentData).length}
               </h3>
+
               <span className="stat-note">
                 Domestic routes
               </span>
             </div>
           </div>
+
           <div className="stat-card">
             <div className="stat-icon">
               📡
             </div>
+
             <div>
               <p className="small-label">
                 OBSERVATIONS
               </p>
+
               <h3>
                 {observationCount}
               </h3>
+
               <span className="stat-note">
                 MySQL observations
               </span>
             </div>
           </div>
+
           <div className="stat-card">
             <div className="stat-icon">
               ₹
             </div>
+
             <div>
               <p className="small-label">
                 AVERAGE FARE
               </p>
+
               <h3>
                 ₹
                 {averageFare.toLocaleString(
                   "en-IN"
                 )}
               </h3>
+
               <span className="stat-note">
                 {activeLead} observed average
               </span>
             </div>
           </div>
         </section>
+
         {/* ===================================================
             LEAD WINDOW
         =================================================== */}
@@ -422,14 +500,17 @@ function App() {
               <p className="small-label">
                 BOOKING WINDOW
               </p>
+
               <h3>
                 Airfare by Lead Time
               </h3>
             </div>
+
             <span className="observation-count">
               {activeLead} selected
             </span>
           </div>
+
           <div className="lead-buttons">
             {leadWindows.map((lead) => (
               <button
@@ -448,6 +529,7 @@ function App() {
             ))}
           </div>
         </section>
+
         {/* ===================================================
             ROUTES
         =================================================== */}
@@ -460,14 +542,17 @@ function App() {
               <p className="small-label">
                 LIVE ROUTES
               </p>
+
               <h3>
                 Current Airfare Snapshot
               </h3>
             </div>
+
             <span className="observation-count">
               {activeLead} window
             </span>
           </div>
+
           {Object.keys(currentData).length === 0 ? (
             <div
               style={{
@@ -492,32 +577,39 @@ function App() {
                       <span className="plane-icon">
                         ✈️
                       </span>
+
                       <span className="route-code">
                         {route}
                       </span>
                     </div>
+
                     <p className="city-name">
                       {routeCities[route] || route}
                     </p>
+
                     <div className="fare">
                       ₹
                       {item.fare.toLocaleString(
                         "en-IN"
                       )}
                     </div>
+
                     <div className="card-bottom">
                       <div>
                         <span className="metric-label">
                           INDEX
                         </span>
+
                         <strong>
                           {item.index.toFixed(2)}
                         </strong>
                       </div>
+
                       <div>
                         <span className="metric-label">
                           SOURCE
                         </span>
+
                         <strong>
                           LIVE
                         </strong>
@@ -529,6 +621,7 @@ function App() {
             </div>
           )}
         </section>
+
         {/* ===================================================
             MARKET OVERVIEW
         =================================================== */}
@@ -538,14 +631,17 @@ function App() {
               <p className="small-label">
                 MARKET OVERVIEW
               </p>
+
               <h3>
                 Airfare Movement
               </h3>
             </div>
+
             <span className="observation-count">
               {activeLead} Analysis
             </span>
           </div>
+
           <div className="market-grid">
             {Object.entries(currentData).map(
               ([route, item]) => (
@@ -557,19 +653,23 @@ function App() {
                     <span>
                       ✈️
                     </span>
+
                     <span className="positive">
                       LIVE
                     </span>
                   </div>
+
                   <p>
                     {route}
                   </p>
+
                   <h4>
                     ₹
                     {item.fare.toLocaleString(
                       "en-IN"
                     )}
                   </h4>
+
                   <span>
                     {activeLead} observed fare
                   </span>
@@ -578,6 +678,7 @@ function App() {
             )}
           </div>
         </section>
+
         {/* ===================================================
             INDEX PANEL
         =================================================== */}
@@ -589,12 +690,15 @@ function App() {
             <p className="small-label">
               AIRFARE PRICE INDEX
             </p>
+
             <h3>
               Current Market Level
             </h3>
+
             <p className="index-number">
               {currentMarketIndex}
             </p>
+
             <p className="index-description">
               Base period = 100. Current values are
               calculated from live fare observations
@@ -602,37 +706,45 @@ function App() {
               The production index will use route-level
               weights and validated airfare observations.
             </p>
+
             <div className="index-meta">
               <div>
                 <span>
                   Routes
                 </span>
+
                 <strong>
                   {Object.keys(currentData).length}
                 </strong>
               </div>
+
               <div>
                 <span>
                   Observations
                 </span>
+
                 <strong>
                   {observationCount}
                 </strong>
               </div>
+
               <div>
                 <span>
                   Lead Window
                 </span>
+
                 <strong>
                   {activeLead}
                 </strong>
               </div>
             </div>
           </div>
+
           <div className="index-chart">
             <div className="chart-label">
               {activeLead} INDEX TREND
             </div>
+
             <div className="chart-bars">
               {chartData.map(
                 (height, index) => (
@@ -646,6 +758,7 @@ function App() {
                 )
               )}
             </div>
+
             <div className="chart-axis">
               <span>T-6</span>
               <span>T-5</span>
@@ -657,6 +770,7 @@ function App() {
             </div>
           </div>
         </section>
+
         {/* ===================================================
             METHODOLOGY
         =================================================== */}
@@ -666,58 +780,71 @@ function App() {
               <p className="small-label">
                 METHODOLOGY
               </p>
+
               <h3>
                 How AirFareX Works
               </h3>
             </div>
           </div>
+
           <div className="method-grid">
             <div className="method-card">
               <span>
                 01
               </span>
+
               <h4>
                 Collect
               </h4>
+
               <p>
                 Gather airfare observations across
                 selected domestic routes and
                 booking windows.
               </p>
             </div>
+
             <div className="method-card">
               <span>
                 02
               </span>
+
               <h4>
                 Clean
               </h4>
+
               <p>
                 Validate observations, handle
                 missing values and remove duplicate
                 or invalid records.
               </p>
             </div>
+
             <div className="method-card">
               <span>
                 03
               </span>
+
               <h4>
                 Normalize
               </h4>
+
               <p>
                 Standardize fares according to
                 route, airline and lead-time
                 dimensions.
               </p>
             </div>
+
             <div className="method-card">
               <span>
                 04
               </span>
+
               <h4>
                 Index
               </h4>
+
               <p>
                 Aggregate validated observations
                 into a high-frequency airfare
@@ -727,6 +854,7 @@ function App() {
           </div>
         </section>
       </main>
+
       {/* =====================================================
           FOOTER
       ===================================================== */}
@@ -734,9 +862,11 @@ function App() {
         <span>
           ✈️ AirFareX
         </span>
+
         <span>
           SIH 26056
         </span>
+
         <span>
           Airfare Measurement & Indexing Platform
         </span>
@@ -744,4 +874,5 @@ function App() {
     </div>
   );
 }
+
 export default App;
