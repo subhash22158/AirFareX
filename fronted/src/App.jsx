@@ -858,18 +858,29 @@ function App() {
       {/* =====================================================
           FOOTER
       ===================================================== */}
-      <footer>
-        <span>
-          ✈️ AirFareX
-        </span>
+      <footer className="airfarex-footer">
+        <div className="footer-brand">
+          <div className="footer-logo">
+            ✈️
+          </div>
 
-        <span>
-          SIH 26056
-        </span>
+          <div>
+            <h3>AirFareX</h3>
+            <p>
+              Airfare Measurement & Indexing Platform
+            </p>
+          </div>
+        </div>
 
-        <span>
-          Airfare Measurement & Indexing Platform
-        </span>
+        <div className="footer-credit">
+          <span>Developed by</span>
+          <strong>Subhash</strong>
+        </div>
+
+        <div className="footer-project">
+          <span>SMART INDIA HACKATHON 2026</span>
+          <strong>SIH 26056</strong>
+        </div>
       </footer>
     </div>
   );
